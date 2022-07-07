@@ -35,10 +35,9 @@
                                             <i class="text-color bi" v-bind:class="[arrowClass]"></i>
                                         </button>
                                         <select class="form-select input-background-color text-color" id="order_by" aria-label="select" v-model="searchQueryOrderBy" @change="handleChange">
-                                            <option disabled value="">Please select one</option>
                                             <option value="0">Release Date</option>
                                             <option value="1">Score</option>
-                                            <option value="2">Name</option>
+                                            <option value="2" selected>Name</option>
                                         </select>
                                     </div>
                                     </div>
@@ -189,6 +188,7 @@ export default {
         arrowClass: "bi-arrow-up",
         // currentIcon is used to store info about user option in sorting asc/desc
         currentIcon: 0,
+        valueSelected: 
     }
   },
   async created () {
