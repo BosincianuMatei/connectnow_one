@@ -3,7 +3,7 @@
         <div class="col-lg-10 offset-lg-1">
             <div class="row row-cols-auto">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-3">
-                    <h1 class="HLB_font"><a href="#/">VIDEO GAMES</a> <span  class="shadow_text_video">VIDEO</span></h1>
+                    <h1 class="HLB_font"><a href="#/">VIDEO</a> <span  class="shadow_text_video">VIDEO</span></h1>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5 col-xl-3">
                     <h1 class="HLB_font"><a href="#/contact">CONTACT</a></h1>
