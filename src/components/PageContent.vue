@@ -188,7 +188,7 @@ export default {
         arrowClass: "bi-arrow-up",
         // currentIcon is used to store info about user option in sorting asc/desc
         currentIcon: 0,
-        valueSelected: 
+        valueSelected: 2,
     }
   },
   async created () {
@@ -250,8 +250,9 @@ export default {
          */
         var sortedGames = this.games;
         if(e.target.options.selectedIndex > -1) {
-            var valueSelected = e.target.options[e.target.options.selectedIndex].value;
-            if(valueSelected == 0) {
+            var newValueSelected = e.target.options[e.target.options.selectedIndex].value;
+            if(newValueSelected != this.valueSelected) this.valueSelected = newValueSelected;
+            if(this.valueSelected == 0) {
                 if(!this.currentIcon) 
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.timestamp > b.timestamp) ? 1 : -1;
@@ -260,7 +261,7 @@ export default {
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.timestamp < b.timestamp) ? 1 : -1;
                     });
-            } else if(valueSelected == 1) {
+            } else if(this.valueSelected == 1) {
                 if(!this.currentIcon) 
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.rating > b.rating) ? 1 : -1;
@@ -269,7 +270,7 @@ export default {
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.rating < b.rating) ? 1 : -1;
                     });
-            } else if(valueSelected == 2) {
+            } else if(this.valueSelected == 2) {
                 if(!this.currentIcon)
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.name > b.name) ? -1 : 1;
@@ -311,11 +312,48 @@ export default {
             this.currentIcon = 0;
             this.arrowClass = "bi-arrow-up";
         }
+
+        var sortedGames = this.games;
         
-    }
+            var newValueSelected = e.target.options[e.target.options.selectedIndex].value;
+            if(newValueSelected != this.valueSelected) this.valueSelected = newValueSelected;
+            if(this.valueSelected == 0) {
+                if(!this.currentIcon) 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.timestamp > b.timestamp) ? 1 : -1;
+                    });
+                else 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.timestamp < b.timestamp) ? 1 : -1;
+                    });
+            } else if(this.valueSelected == 1) {
+                if(!this.currentIcon) 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.rating > b.rating) ? 1 : -1;
+                    });
+                else
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.rating < b.rating) ? 1 : -1;
+                    });
+            } else if(this.valueSelected == 2) {
+                if(!this.currentIcon)
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.name > b.name) ? -1 : 1;
+                    });
+                else 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.name < b.name) ? -1 : 1;
+                    });
+            }
+
+            //console.log(this.games);
+            this.games = sortedGames;
+        
+    
   },
   
 }
+
 
 
 </script>
