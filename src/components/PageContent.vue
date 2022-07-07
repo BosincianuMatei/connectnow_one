@@ -35,10 +35,9 @@
                                             <i class="text-color bi" v-bind:class="[arrowClass]"></i>
                                         </button>
                                         <select class="form-select input-background-color text-color" id="order_by" aria-label="select" v-model="searchQueryOrderBy" @change="handleChange">
-                                            <option disabled value="">Please select one</option>
                                             <option value="0">Release Date</option>
                                             <option value="1">Score</option>
-                                            <option value="2">Name</option>
+                                            <option selected value="2">Name</option>
                                         </select>
                                     </div>
                                     </div>
@@ -161,6 +160,12 @@ small {
         position: relative;
         top:0em;
     }
+     .card-img-custom {
+        display:block;
+        background-color: #000000;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 </style>
@@ -176,7 +181,7 @@ export default {
         // searchQueryMinScore = gets value from min score input
         searchQueryMinScore: null,
         // searchQueryOrderBy = gets value from order by input
-        searchQueryOrderBy: null,
+        searchQueryOrderBy: 2,
         // games will be used for displaying games in DOM
         games: null,
         // filteredGames will be used to filter games by inputs
@@ -189,6 +194,8 @@ export default {
         arrowClass: "bi-arrow-up",
         // currentIcon is used to store info about user option in sorting asc/desc
         currentIcon: 0,
+        valueSelected: 2,
+        newValueSelected: 2,
     }
   },
   async created () {
@@ -207,8 +214,17 @@ export default {
     
     this.loading = false;
     
-    this.games = result
-    this.originalGames = result
+    this.games = result;
+    
+
+    /**
+     * Initital sort by name asc
+     */
+    this.games =  this.games.slice().sort(function(a, b){
+        return (a.name < b.name) ? -1 : 1;
+    });
+
+    this.originalGames = this.games; 
   },
   methods: {
     onInput: function (){
@@ -250,8 +266,9 @@ export default {
          */
         var sortedGames = this.games;
         if(e.target.options.selectedIndex > -1) {
-            var valueSelected = e.target.options[e.target.options.selectedIndex].value;
-            if(valueSelected == 0) {
+            this.newValueSelected = e.target.options[e.target.options.selectedIndex].value;
+            if(this.newValueSelected != this.valueSelected) this.valueSelected = this.newValueSelected;
+            if(this.valueSelected == 0) {
                 if(!this.currentIcon) 
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.timestamp > b.timestamp) ? 1 : -1;
@@ -260,7 +277,7 @@ export default {
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.timestamp < b.timestamp) ? 1 : -1;
                     });
-            } else if(valueSelected == 1) {
+            } else if(this.valueSelected == 1) {
                 if(!this.currentIcon) 
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.rating > b.rating) ? 1 : -1;
@@ -269,7 +286,7 @@ export default {
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.rating < b.rating) ? 1 : -1;
                     });
-            } else if(valueSelected == 2) {
+            } else if(this.valueSelected == 2) {
                 if(!this.currentIcon)
                     sortedGames =  sortedGames.slice().sort(function(a, b){
                         return (a.name > b.name) ? -1 : 1;
@@ -291,7 +308,9 @@ export default {
          */
         this.searchQueryName = "";
         this.searchQueryMinScore = "";
-        this.searchQueryOrderBy = "";
+        this.searchQueryOrderBy = 2;
+        this.currentIcon = 0;
+        this.arrowClass = "bi-arrow-up";
         // To prevent the form from submitting
         e.preventDefault();
 
@@ -311,11 +330,50 @@ export default {
             this.currentIcon = 0;
             this.arrowClass = "bi-arrow-up";
         }
-        
-    }
+
+        var sortedGames = this.games;
+            console.log('selected value');
+            console.log(this.valueSelected);
+            console.log('current icon');
+            console.log(this.currentIcon);
+            if(this.newValueSelected != this.valueSelected) this.valueSelected = this.newValueSelected;
+            if(this.valueSelected == 0) {
+                if(!this.currentIcon) 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.timestamp > b.timestamp) ? 1 : -1;
+                    });
+                else 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.timestamp < b.timestamp) ? 1 : -1;
+                    });
+            } else if(this.valueSelected == 1) {
+                if(!this.currentIcon) 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.rating > b.rating) ? 1 : -1;
+                    });
+                else
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.rating < b.rating) ? 1 : -1;
+                    });
+            } else if(this.valueSelected == 2) {
+                if(!this.currentIcon)
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.name < b.name) ? -1 : 1;
+                    });
+                else 
+                    sortedGames =  sortedGames.slice().sort(function(a, b){
+                        return (a.name > b.name) ? -1 : 1;
+                    });
+            }
+
+            //console.log(this.games);
+            this.games = sortedGames;
+            return this.games;
+    
   },
   
 }
 
+}
 
 </script>

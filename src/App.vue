@@ -166,6 +166,12 @@ textarea {
 		display:none;
 	}
  }
+@media (min-width: 577px) {
+	.clear_button {
+		width: 100%;
+		top: 33px;
+	}
+}
 @media (min-width: 688px) { 
 	.clear_button {
 		width: 100%;
