@@ -208,7 +208,14 @@ export default {
     this.loading = false;
     
     this.games = result
-    this.originalGames = result
+    this.originalGames = result 
+
+    /**
+     * Initital sort by name asc
+     */
+    this.games =  this.games.slice().sort(function(a, b){
+        return (a.name > b.name) ? -1 : 1;
+    });
   },
   methods: {
     onInput: function (){
